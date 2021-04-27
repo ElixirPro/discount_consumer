@@ -18,7 +18,15 @@ defmodule DiscountConsumer.Products do
 
   """
   def list_products do
-    Repo.all(Product)
+    Repo.all(from p in Product, select: p, limit: 5)
+  end
+
+  def filter_discount(range1, range2) do
+    range1 = String.to_integer(range1)
+    range2 = String.to_integer(range2)
+    query = Product.discount_query(range1, range2)
+    |> IO.inspect
+    Repo.all(query)
   end
 
   @doc """

@@ -13,7 +13,7 @@ defmodule DiscountBroadway do
           [
             hosts: [localhost: 9092],
             group_id: "discount_consumers",
-            topics: ["ofertas"]
+            topics: ["offer"]
           ]
         },
         concurrency: 10

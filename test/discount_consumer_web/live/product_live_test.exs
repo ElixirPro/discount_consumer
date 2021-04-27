@@ -10,6 +10,10 @@ defmodule DiscountConsumerWeb.ProductLiveTest do
   @invalid_attrs %{discount: nil, name: nil, price: nil}
 
   defp fixture(:product) do
+    product_1 = %{discount: "10.5", name: "some name", price: "120.5"}
+    product_2 = %{discount: "30.5", name: "some name", price: "120.5"}
+    Products.create_product(product_1)
+    Products.create_product(product_2)
     {:ok, product} = Products.create_product(@create_attrs)
     product
   end
@@ -27,6 +31,20 @@ defmodule DiscountConsumerWeb.ProductLiveTest do
 
       assert html =~ "Listing Products"
       assert html =~ product.name
+    end
+
+    test "filter_discount by range", %{conn: conn, product: product} do
+      {:ok, view, _html} = live(conn, Routes.product_index_path(conn, :index))
+
+      assert render(view) =~ "10.5"
+      refute render(view) =~ "30.5"
+
+      view
+      |> element("#filter-20", "0..20")
+      |> render_click()
+
+      assert render(view) =~ "10.5"
+      refute render(view) =~ "30.5"
     end
 
     test "saves new product", %{conn: conn} do

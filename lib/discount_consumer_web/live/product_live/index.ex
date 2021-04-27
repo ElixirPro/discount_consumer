@@ -49,4 +49,11 @@ defmodule DiscountConsumerWeb.ProductLive.Index do
   defp list_products do
     Products.list_products()
   end
+
+  @impl true
+  def handle_event("filter_discount", %{"discount" => discount}, socket) do
+    [range1, range2] = discount |> String.split("-")
+    products = Products.filter_discount(range1, range2)
+    {:noreply, socket |> assign(:products, products)}
+  end
 end

@@ -1,6 +1,6 @@
 <div class="info">
-    <h1>Listing Products</h1>
-    <span><%= live_patch "New Product", to: Routes.product_index_path(@socket, :new) %></span>
+  <h1>Listing Products</h1>
+  <span><%= live_patch "New Product", to: Routes.product_index_path(@socket, :new) %></span>
 </div>
 
 <%= if @live_action in [:new, :edit] do %>
@@ -11,6 +11,26 @@
     product: @product,
     return_to: Routes.product_index_path(@socket, :index) %>
 <% end %>
+
+<div class="info">
+  <a class="discount" phx-click="filter_discount" phx-value-discount="0-20" id="filter-20">
+    <div>0-20</div>
+    <div>20</div>
+  </a>
+
+  <button phx-click="filter_discount" phx-value-discount="0-20" id="filter-20">
+    0-20
+  </button>
+  <button phx-click="filter_discount" phx-value-discount="21-40" id="filter-40">
+    21-40
+  </button>
+  <button phx-click="filter_discount" phx-value-discount="41-60" id="filter-60">
+    41-60
+  </button>
+  <button phx-click="filter_discount" phx-value-discount="61-100" id="filter-100">
+    61-100
+  </button>
+</div>
 
 <ul id="products">
   <%= for product <- @products do %>
